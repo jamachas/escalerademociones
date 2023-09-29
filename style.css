@@ -1,0 +1,826 @@
+:root {
+  --size: calc(100vw / 24);
+  --rollspeed: 0.25s;
+  --p1col: red;
+  --p2col: blue;
+  --p1name: "red";
+  --p2name: "blue";
+  font-family: sans-serif;
+  background-image: url("bg_new.png");
+}
+@keyframes diceroll {
+  100% {
+    transform: translateY(calc(var(--size) * -6));
+  }
+}
+@keyframes moveroll {
+  100% {
+    transform: translateY(calc(var(--size) * -6));
+  }
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+[type="radio"],
+[type="reset"] {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+label {
+  display: block;
+  cursor: pointer;
+}
+[for="roll1"],
+[for="roll2"] {
+  position: absolute;
+  top: calc(var(--size) * 0.25);
+  left: calc(var(--size) * 1.5);
+  width: calc(var(--size) * 3);
+  height: calc(var(--size) * 0.5);
+  padding: calc(var(--size) * 0.25);
+  border-radius: calc(var(--size) * 0.125);
+  text-align: center;
+  visibility: hidden;
+  color: white;
+  font-weight: bold;
+  font-size: calc(var(--size) * 0.3);
+  line-height: calc(var(--size) * 0.3);
+  text-transform: uppercase;
+  background: var(--p1col);
+}
+[for="roll2"] {
+  position: absolute;
+  left: calc(var(--size) * 19);
+  border-color: var(--p2col);
+  background: var(--p2col);
+}
+#dice1:checked ~ [for="roll2"],
+#dice2:checked ~ [for="roll1"] {
+  visibility: visible;
+}
+#dicecontainer1,
+#dicecontainer2 {
+  position: absolute;
+  top: calc(var(--size) * 0.25);
+  left: calc(var(--size) * 5.5);
+  overflow: hidden;
+  width: var(--size);
+  height: var(--size);
+  background: var(--p1col);
+  border-radius: calc(var(--size) * 0.125);
+}
+#dicecontainer2 {
+  position: absolute;
+  left: calc(var(--size) * 17.5);
+  background: var(--p2col);
+}
+.diceroll {
+  display: block;
+  position: absolute;
+  width: var(--size);
+  height: calc(var(--size) * 6);
+  animation: diceroll var(--rollspeed) steps(6) infinite;
+  animation-play-state: paused;
+}
+[for="dice1"],
+[for="dice2"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--size);
+  height: var(--size);
+  pointer-events: none;
+}
+#roll1:checked ~ #dicecontainer1 [for="dice1"],
+#roll2:checked ~ #dicecontainer2 [for="dice2"] {
+  pointer-events: auto;
+}
+#roll1:checked ~ #dicecontainer1 .diceroll,
+#roll2:checked ~ #dicecontainer2 .diceroll,
+#roll1:checked ~ .board #moves1,
+#roll2:checked ~ .board #moves2 {
+  animation-play-state: running;
+}
+.diceroll span {
+  display: block;
+  width: var(--size);
+  height: var(--size);
+}
+.diceroll span:before {
+  content: "";
+  display: block;
+  position: relative;
+  top: calc(var(--size) * -0.125);
+  left: calc(var(--size) * -0.125);
+  width: calc(var(--size) * 0.25);
+  height: calc(var(--size) * 0.25);
+  border-radius: 50%;
+}
+.diceroll span:nth-of-type(1):before {
+  box-shadow: calc(var(--size) * 0.5) calc(var(--size) * 0.5) 0 0 white;
+}
+.diceroll span:nth-of-type(2):before {
+  box-shadow: calc(var(--size) * 0.25) calc(var(--size) * 0.75) 0 0 white,
+    calc(var(--size) * 0.75) calc(var(--size) * 0.25) 0 0 white;
+}
+.diceroll span:nth-of-type(3):before {
+  box-shadow: calc(var(--size) * 0.25) calc(var(--size) * 0.75) 0 0 white,
+    calc(var(--size) * 0.5) calc(var(--size) * 0.5) 0 0 white,
+    calc(var(--size) * 0.75) calc(var(--size) * 0.25) 0 0 white;
+}
+.diceroll span:nth-of-type(4):before {
+  box-shadow: calc(var(--size) * 0.25) calc(var(--size) * 0.25) 0 0 white,
+    calc(var(--size) * 0.25) calc(var(--size) * 0.75) 0 0 white,
+    calc(var(--size) * 0.75) calc(var(--size) * 0.25) 0 0 white,
+    calc(var(--size) * 0.75) calc(var(--size) * 0.75) 0 0 white;
+}
+.diceroll span:nth-of-type(5):before {
+  box-shadow: calc(var(--size) * 0.25) calc(var(--size) * 0.25) 0 0 white,
+    calc(var(--size) * 0.25) calc(var(--size) * 0.75) 0 0 white,
+    calc(var(--size) * 0.5) calc(var(--size) * 0.5) 0 0 white,
+    calc(var(--size) * 0.75) calc(var(--size) * 0.25) 0 0 white,
+    calc(var(--size) * 0.75) calc(var(--size) * 0.75) 0 0 white;
+}
+.diceroll span:nth-of-type(6):before {
+  box-shadow: calc(var(--size) * 0.25) calc(var(--size) * 0.25) 0 0 white,
+    calc(var(--size) * 0.25) calc(var(--size) * 0.5) 0 0 white,
+    calc(var(--size) * 0.25) calc(var(--size) * 0.75) 0 0 white,
+    calc(var(--size) * 0.75) calc(var(--size) * 0.25) 0 0 white,
+    calc(var(--size) * 0.75) calc(var(--size) * 0.5) 0 0 white,
+    calc(var(--size) * 0.75) calc(var(--size) * 0.75) 0 0 white;
+}
+[for="help_open"],
+[for="reset"] {
+  display: block;
+  position: absolute;
+  top: calc(var(--size) * 0.25);
+  left: calc(var(--size) * 7.5);
+  width: calc(var(--size) * 2);
+  height: calc(var(--size) * 0.5 - 4px);
+  padding: calc(var(--size) * 0.25);
+  border: 2px #666 solid;
+  border-radius: calc(var(--size) * 0.125);
+  font-size: calc(var(--size) * 0.3);
+  line-height: calc(var(--size) * 0.3);
+  text-transform: uppercase;
+  text-align: center;
+  color: #666;
+  font-weight: bold;
+  background: white;
+  cursor: pointer;
+}
+[for="reset"] {
+  left: calc(var(--size) * 14 - 4px);
+}
+#help {
+  position: absolute;
+  top: calc(var(--size) * 0.25);
+  transform: translate(calc(var(--size) * 6.75), -150%);
+  width: calc(var(--size) * 10 - 4px);
+  height: calc(var(--size) * 1.6);
+  padding: calc(var(--size) * 0.25);
+  border: 2px black solid;
+  border-radius: calc(var(--size) * 0.25);
+  background: white;
+  transition: transform 1s linear;
+}
+#help p {
+  font-size: calc(var(--size) * 0.4);
+  line-height: calc(var(--size) * 0.4);
+  margin: 0 0 calc(var(--size) * 0.2);
+  padding: 0;
+}
+#help_open:checked ~ #help {
+  transform: translate(calc(var(--size) * 6.75), 0);
+}
+[for="help_close"] {
+  display: block;
+  position: absolute;
+  top: calc(var(--size) * 0.25);
+  right: calc(var(--size) * 0.25);
+  width: calc(var(--size) * 0.5);
+  height: calc(var(--size) * 0.5);
+  border-radius: 50%;
+  background: grey;
+}
+[for="help_close"]:before,
+[for="help_close"]:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(var(--size) * 0.075);
+  height: calc(var(--size) * 0.3);
+  background: white;
+  border-radius: calc(var(--size) * 0.05);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+[for="help_close"]:after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+[for="help_close"]:hover {
+  background: red;
+}
+#moves1,
+#moves2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--size);
+  height: calc(var(--size) * 48);
+  animation: moveroll var(--rollspeed) steps(6) infinite;
+  animation-play-state: paused;
+}
+#moves1 label,
+#moves2 label {
+  width: var(--size);
+  height: var(--size);
+}
+.board {
+  position: absolute;
+  top: calc(var(--size) * 1.5);
+  left: calc(var(--size) * 1.5);
+  width: calc(var(--size) * 21 + 1px);
+  height: calc(var(--size) * 7 + 1px);
+}
+.spaces {
+  float: left;
+  background-image: url("board.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  counter-reset: number 49;
+  width: calc(var(--size) * 21);
+  height: calc(var(--size) * 7);
+  border-top: 1px black solid;
+  border-left: 1px black solid;
+}
+#dice1:checked ~ .board #counter1,
+#dice2:checked ~ .board #counter2 {
+  pointer-events: auto;
+}
+.spaces div {
+  float: right;
+  background: var(--boardcol1);
+  width: calc(var(--size) * 3 - 1px);
+  height: calc(var(--size) - 1px);
+  border-right: 1px black solid;
+  border-bottom: 1px black solid;
+}
+.spaces div:nth-of-type(2n) {
+  background: var(--boardcol2);
+}
+.spaces div:nth-of-type(n + 8):nth-of-type(-n + 14),
+.spaces div:nth-of-type(n + 22):nth-of-type(-n + 28),
+.spaces div:nth-of-type(n + 36):nth-of-type(-n + 42) {
+  float: left;
+}
+.spaces div:first-of-type {
+  border-left-width: 1px;
+}
+.spaces div:before {
+  counter-increment: number -1;
+  content: counter(number);
+  font-size: calc(var(--size) * 0.25);
+}
+.spaces div:last-of-type:before {
+  content: "INICIO";
+}
+.spaces div:first-of-type:before {
+  content: "FIN";
+}
+#counter1,
+#counter2 {
+  width: var(--size);
+  height: var(--size);
+  position: absolute;
+  top: 0;
+  left: var(--size);
+  transform: translate(0, calc(var(--size) * 6));
+  transition: transform 1s ease;
+  pointer-events: none;
+  overflow: hidden;
+}
+#counter2 {
+  left: calc(var(--size) * 2);
+}
+#counter1:before,
+#counter2:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: calc(var(--size) * 0.125);
+  left: calc(var(--size) * 0.125);
+  width: calc(var(--size) * 0.75);
+  height: calc(var(--size) * 0.75);
+
+  border-radius: 50%;
+}
+
+#move1_1:checked ~ .board #counter1,
+#move2_1:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 3), calc(var(--size) * 6));
+}
+#move1_1:checked ~ .board #moves1,
+#move2_1:checked ~ .board #moves2 {
+  top: calc(var(--size) * -1);
+}
+#move1_2:checked ~ .board #counter1,
+#move2_2:checked ~ .board #counter2 {
+  /*transform: translate(calc(var(--size) * 6), calc(var(--size) * 6));*/
+  transform: translate(calc(var(--size) * 3), calc(var(--size) * 4));
+}
+#move1_2:checked ~ .board #moves1,
+#move2_2:checked ~ .board #moves2 {
+  /*top: calc(var(--size) * -2);*/
+  top: calc(var(--size) * -15);
+}
+#move1_3:checked ~ .board #counter1,
+#move2_3:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 9), calc(var(--size) * 6));
+}
+#move1_3:checked ~ .board #moves1,
+#move2_3:checked ~ .board #moves2 {
+  top: calc(var(--size) * -3);
+}
+#move1_4:checked ~ .board #counter1,
+#move2_4:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 12), calc(var(--size) * 6));
+}
+#move1_4:checked ~ .board #moves1,
+#move2_4:checked ~ .board #moves2 {
+  top: calc(var(--size) * -4);
+}
+#move1_5:checked ~ .board #counter1,
+#move2_5:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 15), calc(var(--size) * 6));
+}
+#move1_5:checked ~ .board #moves1,
+#move2_5:checked ~ .board #moves2 {
+  top: calc(var(--size) * -5);
+}
+#move1_6:checked ~ .board #counter1,
+#move2_6:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 18), calc(var(--size) * 6));
+}
+#move1_6:checked ~ .board #moves1,
+#move2_6:checked ~ .board #moves2 {
+  top: calc(var(--size) * -6);
+}
+#move1_7:checked ~ .board #counter1,
+#move2_7:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 18), calc(var(--size) * 5));
+}
+#move1_7:checked ~ .board #moves1,
+#move2_7:checked ~ .board #moves2 {
+  top: calc(var(--size) * -7);
+}
+#move1_8:checked ~ .board #counter1,
+#move2_8:checked ~ .board #counter2 {
+  /*transform: translate(calc(var(--size) * 15), WAScalc(var(--size) * 1;))*/
+  transform: translate(calc(var(--size) * 18), calc(var(--size) * 2));
+}
+#move1_8:checked ~ .board #moves1,
+#move2_8:checked ~ .board #moves2 {
+  /*top: calc(var(--size) * -8);*/
+  top: calc(var(--size) * -34);
+}
+#move1_9:checked ~ .board #counter1,
+#move2_9:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 12), calc(var(--size) * 5));
+}
+#move1_9:checked ~ .board #moves1,
+#move2_9:checked ~ .board #moves2 {
+  top: calc(var(--size) * -9);
+}
+#move1_10:checked ~ .board #counter1,
+#move2_10:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 9), calc(var(--size) * 5));
+}
+#move1_10:checked ~ .board #moves1,
+#move2_10:checked ~ .board #moves2 {
+  top: calc(var(--size) * -10);
+}
+#move1_11:checked ~ .board #counter1,
+#move2_11:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 6), calc(var(--size) * 5));
+}
+#move1_11:checked ~ .board #moves1,
+#move2_11:checked ~ .board #moves2 {
+  top: calc(var(--size) * -11);
+}
+#move1_12:checked ~ .board #counter1,
+#move2_12:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 3), calc(var(--size) * 5));
+}
+#move1_12:checked ~ .board #moves1,
+#move2_12:checked ~ .board #moves2 {
+  top: calc(var(--size) * -12);
+}
+#move1_13:checked ~ .board #counter1,
+#move2_13:checked ~ .board #counter2 {
+  transform: translate(0, calc(var(--size) * 5));
+}
+#move1_13:checked ~ .board #moves1,
+#move2_13:checked ~ .board #moves2 {
+  top: calc(var(--size) * -13);
+}
+#move1_14:checked ~ .board #counter1,
+#move2_14:checked ~ .board #counter2 {
+  transform: translate(0, calc(var(--size) * 4));
+}
+#move1_14:checked ~ .board #moves1,
+#move2_14:checked ~ .board #moves2 {
+  top: calc(var(--size) * -14);
+}
+#move1_15:checked ~ .board #counter1,
+#move2_15:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 3), calc(var(--size) * 4));
+}
+#move1_15:checked ~ .board #moves1,
+#move2_15:checked ~ .board #moves2 {
+  top: calc(var(--size) * -15);
+}
+#move1_16:checked ~ .board #counter1,
+#move2_16:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 6), calc(var(--size) * 4));
+}
+#move1_16:checked ~ .board #moves1,
+#move2_16:checked ~ .board #moves2 {
+  top: calc(var(--size) * -16);
+}
+#move1_17:checked ~ .board #counter1,
+#move2_17:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 9), calc(var(--size) * 4));
+}
+#move1_17:checked ~ .board #moves1,
+#move2_17:checked ~ .board #moves2 {
+  top: calc(var(--size) * -17);
+}
+#move1_18:checked ~ .board #counter1,
+#move2_18:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 12), calc(var(--size) * 4));
+}
+#move1_18:checked ~ .board #moves1,
+#move2_18:checked ~ .board #moves2 {
+  top: calc(var(--size) * -18);
+}
+#move1_19:checked ~ .board #counter1,
+#move2_19:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 15), calc(var(--size) * 4));
+}
+#move1_19:checked ~ .board #moves1,
+#move2_19:checked ~ .board #moves2 {
+  top: calc(var(--size) * -19);
+}
+#move1_20:checked ~ .board #counter1,
+#move2_20:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 18), calc(var(--size) * 4));
+}
+#move1_20:checked ~ .board #moves1,
+#move2_20:checked ~ .board #moves2 {
+  top: calc(var(--size) * -20);
+}
+#move1_21:checked ~ .board #counter1,
+#move2_21:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 18), calc(var(--size) * 3));
+}
+#move1_21:checked ~ .board #moves1,
+#move2_21:checked ~ .board #moves2 {
+  top: calc(var(--size) * -21);
+}
+#move1_22:checked ~ .board #counter1,
+#move2_22:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 15), calc(var(--size) * 3));
+}
+#move1_22:checked ~ .board #moves1,
+#move2_22:checked ~ .board #moves2 {
+  top: calc(var(--size) * -22);
+}
+#move1_23:checked ~ .board #counter1,
+#move2_23:checked ~ .board #counter2 {
+  /*transform: translate(calc(var(--size) * 12), calc(var(--size) * 3));*/
+  transform: translate(calc(var(--size) * 9), calc(var(--size) * 5));
+}
+#move1_23:checked ~ .board #moves1,
+#move2_23:checked ~ .board #moves2 {
+  /*top: calc(var(--size) * -23);*/
+  top: calc(var(--size) * -10);
+}
+#move1_24:checked ~ .board #counter1,
+#move2_24:checked ~ .board #counter2 {
+  /*transform: translate(calc(var(--size) * 9), calc(var(--size) * 3));*/
+  transform: translate(calc(var(--size) * 12), calc(var(--size) * 2));
+}
+#move1_24:checked ~ .board #moves1,
+#move2_24:checked ~ .board #moves2 {
+  /*top: calc(var(--size) * -24);*/
+  top: calc(var(--size) * -32);
+}
+#move1_25:checked ~ .board #counter1,
+#move2_25:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 6), calc(var(--size) * 3));
+}
+#move1_25:checked ~ .board #moves1,
+#move2_25:checked ~ .board #moves2 {
+  top: calc(var(--size) * -25);
+}
+#move1_26:checked ~ .board #counter1,
+#move2_26:checked ~ .board #counter2 {
+  /*transform: translate(calc(var(--size) * 3), calc(var(--size) * 3));*/
+  transform: translate(0, calc(var(--size) * 4));
+}
+#move1_26:checked ~ .board #moves1,
+#move2_26:checked ~ .board #moves2 {
+  /*top: calc(var(--size) * -26);*/
+  top: calc(var(--size) * -14);
+}
+#move1_27:checked ~ .board #counter1,
+#move2_27:checked ~ .board #counter2 {
+  transform: translate(0, calc(var(--size) * 3));
+}
+#move1_27:checked ~ .board #moves1,
+#move2_27:checked ~ .board #moves2 {
+  top: calc(var(--size) * -27);
+}
+#move1_28:checked ~ .board #counter1,
+#move2_28:checked ~ .board #counter2 {
+  /*transform: translate(0, calc(var(--size) * 2));*/
+  transform: translate(calc(var(--size) * 3), var(--size));
+}
+#move1_28:checked ~ .board #moves1,
+#move2_28:checked ~ .board #moves2 {
+  /*top: calc(var(--size) * -28);*/
+  top: calc(var(--size) * -40);
+}
+#move1_29:checked ~ .board #counter1,
+#move2_29:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 3), calc(var(--size) * 2));
+}
+#move1_29:checked ~ .board #moves1,
+#move2_29:checked ~ .board #moves2 {
+  top: calc(var(--size) * -29);
+}
+#move1_30:checked ~ .board #counter1,
+#move2_30:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 6), calc(var(--size) * 2));
+}
+#move1_30:checked ~ .board #moves1,
+#move2_30:checked ~ .board #moves2 {
+  top: calc(var(--size) * -30);
+}
+#move1_31:checked ~ .board #counter1,
+#move2_31:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 9), calc(var(--size) * 2));
+}
+#move1_31:checked ~ .board #moves1,
+#move2_31:checked ~ .board #moves2 {
+  top: calc(var(--size) * -31);
+}
+#move1_32:checked ~ .board #counter1,
+#move2_32:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 12), calc(var(--size) * 2));
+}
+#move1_32:checked ~ .board #moves1,
+#move2_32:checked ~ .board #moves2 {
+  top: calc(var(--size) * -32);
+}
+#move1_33:checked ~ .board #counter1,
+#move2_33:checked ~ .board #counter2 {
+  /*transform: translate(calc(var(--size) * 15), calc(var(--size) * 2));*/
+  transform: translate(calc(var(--size) * 18), calc(var(--size) * 4));
+}
+#move1_33:checked ~ .board #moves1,
+#move2_33:checked ~ .board #moves2 {
+  /*top: calc(var(--size) * -33);*/
+  top: calc(var(--size) * -20);
+}
+#move1_34:checked ~ .board #counter1,
+#move2_34:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 18), calc(var(--size) * 2));
+}
+#move1_34:checked ~ .board #moves1,
+#move2_34:checked ~ .board #moves2 {
+  top: calc(var(--size) * -34);
+}
+#move1_35:checked ~ .board #counter1,
+#move2_35:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 18), var(--size));
+}
+#move1_35:checked ~ .board #moves1,
+#move2_35:checked ~ .board #moves2 {
+  top: calc(var(--size) * -35);
+}
+#move1_36:checked ~ .board #counter1,
+#move2_36:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 15), var(--size));
+}
+#move1_36:checked ~ .board #moves1,
+#move2_36:checked ~ .board #moves2 {
+  top: calc(var(--size) * -36);
+}
+#move1_37:checked ~ .board #counter1,
+#move2_37:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 12), var(--size));
+}
+#move1_37:checked ~ .board #moves1,
+#move2_37:checked ~ .board #moves2 {
+  top: calc(var(--size) * -37);
+}
+#move1_38:checked ~ .board #counter1,
+#move2_38:checked ~ .board #counter2 {
+  /*transform: translate(calc(var(--size) * 9), var(--size));*/
+  transform: translate(calc(var(--size) * 9), 0);
+}
+#move1_38:checked ~ .board #moves1,
+#move2_38:checked ~ .board #moves2 {
+  /*top: calc(var(--size) * -38);*/
+  top: calc(var(--size) * -45);
+}
+#move1_39:checked ~ .board #counter1,
+#move2_39:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 6), var(--size));
+}
+#move1_39:checked ~ .board #moves1,
+#move2_39:checked ~ .board #moves2 {
+  top: calc(var(--size) * -39);
+}
+#move1_40:checked ~ .board #counter1,
+#move2_40:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 3), var(--size));
+}
+#move1_40:checked ~ .board #moves1,
+#move2_40:checked ~ .board #moves2 {
+  top: calc(var(--size) * -40);
+}
+#move1_41:checked ~ .board #counter1,
+#move2_41:checked ~ .board #counter2 {
+  transform: translate(0, var(--size));
+}
+#move1_41:checked ~ .board #moves1,
+#move2_41:checked ~ .board #moves2 {
+  top: calc(var(--size) * -41);
+}
+#move1_42:checked ~ .board #counter1,
+#move2_42:checked ~ .board #counter2 {
+  transform: translate(0, 0);
+}
+#move1_42:checked ~ .board #moves1,
+#move2_42:checked ~ .board #moves2 {
+  top: calc(var(--size) * -42);
+}
+#move1_43:checked ~ .board #counter1,
+#move2_43:checked ~ .board #counter2 {
+  /*transform: translate(calc(var(--size) * 3), 0);*/
+  transform: translate(calc(var(--size) * 6), calc(var(--size) * 2));
+}
+#move1_43:checked ~ .board #moves1,
+#move2_43:checked ~ .board #moves2 {
+  /*top: calc(var(--size) * -43);*/
+  top: calc(var(--size) * -30);
+}
+#move1_44:checked ~ .board #counter1,
+#move2_44:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 6), 0);
+}
+#move1_44:checked ~ .board #moves1,
+#move2_44:checked ~ .board #moves2 {
+  top: calc(var(--size) * -44);
+}
+#move1_45:checked ~ .board #counter1,
+#move2_45:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 9), 0);
+}
+#move1_45:checked ~ .board #moves1,
+#move2_45:checked ~ .board #moves2 {
+  top: calc(var(--size) * -45);
+}
+#move1_46:checked ~ .board #counter1,
+#move2_46:checked ~ .board #counter2 {
+  /*transform: translate(calc(var(--size) * 12), 0);*/
+  transform: translate(calc(var(--size) * 12), var(--size));
+}
+#move1_46:checked ~ .board #moves1,
+#move2_46:checked ~ .board #moves2 {
+  /*top: calc(var(--size) * -46);*/
+  top: calc(var(--size) * -37);
+}
+#move1_47:checked ~ .board #counter1,
+#move2_47:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 15), 0);
+}
+#move1_47:checked ~ .board #moves1,
+#move2_47:checked ~ .board #moves2 {
+  top: calc(var(--size) * -47);
+}
+#move1_48:checked ~ .board #counter1,
+#move2_48:checked ~ .board #counter2 {
+  transform: translate(calc(var(--size) * 18), 0);
+}
+#move1_48:checked ~ .board #moves1,
+#move2_48:checked ~ .board #moves2 {
+  top: calc(var(--size) * -48);
+}
+#winner {
+  position: absolute;
+  top: calc(var(--size) * 3.5);
+  width: calc(100% - var(--size) * 0.25 * 2);
+  padding: calc(var(--size) * 0.25);
+  color: white;
+  font-weight: bold;
+  font-size: var(--size);
+  line-height: var(--size);
+  text-transform: uppercase;
+  text-align: center;
+  display: none;
+}
+#move1_48:checked ~ #winner {
+  display: block;
+  background: var(--p1col);
+}
+#move1_48:checked ~ #winner:before {
+  content: var(--p1name);
+}
+#move2_48:checked ~ #winner {
+  display: block;
+  background: var(--p2col);
+}
+#move2_48:checked ~ #winner:before {
+  content: var(--p2name);
+}
+#move1_48:checked ~ [for="roll1"],
+#move1_48:checked ~ [for="roll2"],
+#move1_48:checked ~ #dicecontainer1,
+#move1_48:checked ~ #dicecontainer2,
+#move2_48:checked ~ [for="roll1"],
+#move2_48:checked ~ [for="roll2"],
+#move2_48:checked ~ #dicecontainer1,
+#move2_48:checked ~ #dicecontainer2 {
+  visibility: hidden;
+}
+#move1_48:checked ~ .board #counter1,
+#move2_48:checked ~ .board #counter2 {
+  pointer-events: none;
+}
+
+#counter2 {
+  background-image: url("p02.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  }
+  
+#counter1 {
+  background-image: url("p01.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  }
+
+  .modal-overlay {
+  background-color: rgba(56, 140, 255, 0.8);
+  width:100%;
+  height:100vh;
+  position:absolute;
+  top:0px;
+  left:0px;
+  display:none;
+}
+.modal {
+  max-width:600px;
+  width:95%;
+  background-color:white;
+  padding:20px;
+  box-sizing:border-box;
+  border-radius:4px;
+  font-family: 'Open Sans', sans-serif;
+  color:#444;
+  font-size:1.5rem;
+  font-weight: 600;
+  animation: jumpin 0.6s forwards;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+}
+.modal .close {
+  float:right;
+  width:15px;
+  height:15px;
+  display:inline-block;
+  font-family: 'Open Sans', sans-serif;
+  color:#444;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+}
+@keyframes jumpin {
+  0% {
+  margin-top:50px;
+  }
+  100% {
+  margin-top:0px;
+  }
+}
